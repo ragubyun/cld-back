@@ -4,9 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon --config nodemon.json src/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "lowdb": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/lowdb": "^1.0.6",
+    "@types/node": "^10.12.19",
+    "nodemon": "^1.18.9"
+  }
 }
