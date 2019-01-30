@@ -15,8 +15,8 @@ router.get('/', (request, response) => {
 
   const winners = _.sample(users, 3);
 
-  users.forEach(user => {
-    axios
+  users.forEach(async user => {
+    await axios
       .post('https://fcm.googleapis.com/fcm/send', {
         notification: {
           title: 'CLD free coffee event',
@@ -33,13 +33,7 @@ router.get('/', (request, response) => {
           'Authorization': 'key=AAAAAl_VyiA:APA91bFEf1HIJeSW7aoNNnmTcl3eNrFd1DfL_M60nvgYbaHwQwg7Fb1sydn4NisVIrVToKFzg_LvNg0uffBA3Yx70ShwpbDr-lmMO3O4hZlHO2VyLgXtFw3gPqP5pxpYc16Cy8VlijqM',
           'Content-Type': 'application/json',
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+      });
   });
 
   response.send(winners.map(winner => winner.userAgent));
