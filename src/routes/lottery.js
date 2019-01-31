@@ -1,17 +1,13 @@
 const express = require('express');
-const lowdb = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
 const _ = require('underscore');
 const axios = require('axios');
 
-const adapter = new FileSync('db/db.json');
-const db = lowdb(adapter);
+const dbAccessor = require('../db/db-accessor');
 
 const router = express.Router();
 
 router.get('/', (request, response) => {
-  const users = db.get('tokens')
-    .value();
+  const users = dbAccessor.get(['tokens']);
 
   const winners = _.sample(users, 3);
 

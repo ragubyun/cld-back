@@ -1,15 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const lowdb = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
 
 const routes = require('./routes/index');
-
-const adapter = new FileSync('db/db.json');
-const db = lowdb(adapter);
-
-db.defaults({ tokens: [] })
-  .write();
 
 const app = express();
 const { PORT = 3000 } = process.env;

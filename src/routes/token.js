@@ -1,39 +1,27 @@
 const express = require('express');
-const lowdb = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
 
-const adapter = new FileSync('db/db.json');
-const db = lowdb(adapter);
+const dbAccessor = require('../db/db-accessor');
 
 const router = express.Router();
 
 router.get('/', (request, response) => {
-  const data = db.get('tokens')
-    .value();
-  response.send(data);
+  response.send(dbAccessor.get(['tokens']));
 });
 
-router.get('/:token', (request, response) => {
-  const { token } = request.params;
-  const data = db.get('tokens')
-    .find({ token })
-    .value();
-  response.send(data);
-});
+// router.get('/:token', (request, response) => {
+//   const { token } = request.params;
+//   const data = db.get('tokens')
+//     .find({ token })
+//     .value();
+//   response.send(data);
+// });
 
 router.post('/', (request, response) => {
   const { userAgent, token } = request.body;
-  const notFound = !db.get('tokens')
-    .find({ token })
-    .value();
+  const found = dbAccessor.get(['tokens']).find(t => t.token === token);
 
-  if (notFound) {
-    db.get('tokens')
-      .push({
-        userAgent,
-        token
-      })
-      .write();
+  if (!found) {
+    dbAccessor.push(['tokens'], { userAgent, token });
   }
 
   response.sendStatus(200);
